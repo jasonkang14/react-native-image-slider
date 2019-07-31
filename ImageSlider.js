@@ -101,14 +101,6 @@ class ImageSlider extends Component<PropsType, StateType> {
     return this.state.position % this.props.images.length;
   }
 
-  componentDidUpdate(prevProps: Object) {
-    const { position, autoPlayFlag } = this.props;
-    this.autoPlayFlag = autoPlayFlag;
-    if (position && prevProps.position !== position) {
-      this._move(position);
-    }
-  }
-
   _clearInterval = () =>
     this.state.interval && clearInterval(this.state.interval);
 
@@ -167,7 +159,12 @@ class ImageSlider extends Component<PropsType, StateType> {
     this._setInterval();
   };
 
-  componentWillMount() {
+  componentDidUpdate(prevProps: Object) {
+    const { position, autoPlayFlag } = this.props;
+    this.autoPlayFlag = autoPlayFlag;
+    if (position && prevProps.position !== position) {
+      this._move(position);
+    }
     this._setInterval();
   }
 
@@ -238,46 +235,50 @@ class ImageSlider extends Component<PropsType, StateType> {
     const scrollEnabled = this._scrollEnabled(position);
 
     return (
-      <View style={[styles.container, style]} onLayout={this._onLayout}>
-        <ScrollView
-          onLayout={this._onLayout}
-          ref={ref => this._onRef(ref)}
-          onMomentumScrollEnd={this._handleScroll}
-          scrollEventThrottle={16}
-          pagingEnabled={true}
-          bounces={loopBothSides}
-          contentInset={loopBothSides ? { left: this.state.width } : {}}
-          horizontal={true}
-          scrollEnabled={scrollEnabled}
-          showsHorizontalScrollIndicator={false}
-          style={[styles.scrollViewContainer, style]}
-        >
-          {loopBothSides && this._renderImage(images[images.length - 1], -1)}
-          {images.map(this._renderImage)}
-          {(loop || loopBothSides) &&
-            this._renderImage(images[0], images.length)}
-        </ScrollView>
-        {customButtons ? (
-          customButtons(position, this._move)
-        ) : (
-          <View style={styles.buttons}>
-            {this.props.images.map((image, index) => (
-              <TouchableHighlight
-                key={index}
-                underlayColor="#ccc"
-                onPress={() => this._move(index)}
-                style={[
-                  styles.button,
-                  position === index && styles.buttonSelected,
-                ]}
-              >
-                <View />
-              </TouchableHighlight>
-            ))}
-          </View>
-        )}
-        {this._popHelperView()}
-      </View>
+      <>
+        <View style={[styles.container, style]} onLayout={this._onLayout}>
+          <ScrollView
+            onLayout={this._onLayout}
+            ref={ref => this._onRef(ref)}
+            onMomentumScrollEnd={this._handleScroll}
+            scrollEventThrottle={16}
+            pagingEnabled={true}
+            bounces={loopBothSides}
+            contentInset={loopBothSides ? { left: this.state.width } : {}}
+            horizontal={true}
+            scrollEnabled={scrollEnabled}
+            showsHorizontalScrollIndicator={false}
+            style={[styles.scrollViewContainer, style]}
+          >
+            {loopBothSides && this._renderImage(images[images.length - 1], -1)}
+            {images.map(this._renderImage)}
+            {(loop || loopBothSides) &&
+              this._renderImage(images[0], images.length)}
+          </ScrollView>
+          {this._popHelperView()}
+        </View>
+          <View>
+          {customButtons ? (
+            customButtons(position, this._move)
+          ) : (
+            <View style={styles.buttons}>
+              {this.props.images.map((image, index) => (
+                <TouchableHighlight
+                  key={index}
+                  underlayColor="#ccc"
+                  onPress={() => this._move(index)}
+                  style={[
+                    styles.button,
+                    position === index && styles.buttonSelected,
+                  ]}
+                >
+                  <View />
+                </TouchableHighlight>
+              ))}
+            </View>
+          )}
+        </View>
+      </>
     );
   }
 }
