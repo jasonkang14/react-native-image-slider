@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   buttons: {
-    top: 30,
+    top: 25,
     height: 15,
     marginTop: -15,
     justifyContent: 'center',
@@ -306,9 +306,9 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 3,
-    width: 8,
-    height: 8,
-    borderRadius: 8 / 2,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: '#D8D8D8',
     opacity: 0.9,
   },
