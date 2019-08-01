@@ -270,6 +270,7 @@ class ImageSlider extends Component<PropsType, StateType> {
                   style={[
                     styles.button,
                     position === index && styles.buttonSelected,
+                    
                   ]}
                 >
                   <View />
@@ -296,6 +297,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   buttons: {
+    top: 30,
     height: 15,
     marginTop: -15,
     justifyContent: 'center',
@@ -307,12 +309,12 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 8 / 2,
-    backgroundColor: '#ccc',
+    backgroundColor: '#D8D8D8',
     opacity: 0.9,
   },
   buttonSelected: {
     opacity: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#067571',
   },
 });
 
